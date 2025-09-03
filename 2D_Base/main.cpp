@@ -1,9 +1,10 @@
-﻿
-#include "GameManager.h"
+﻿#include "engine/app/Application.h"
+
 int main()
 {
-    GameManager* game_manager = new GameManager();
+    auto* app = new Application(AppConfig());
 
-    game_manager->Run();
+    app->Run();
 
+    return 0;
 }
