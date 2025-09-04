@@ -18,12 +18,12 @@ Application::Application(const AppConfig & config) : _config(config)
         _window.setFramerateLimit(_config.fpsCap);
     }
 
+    _context.window = &_window;
+    _context.sceneManager = &_sceneManager;
     _context.windowSize = _window.getSize();
 }
 
-Application::~Application()
-{
-}
+Application::~Application() = default;
 
 void Application::Run()
 {
@@ -33,10 +33,14 @@ void Application::Run()
     {
         HandleEvents();
 
+        // Applies requested transitions between scenes
+        _sceneManager.ProcessPending(_context);
+
         float frameDt = _clock.restart().asSeconds();
 
         // Avoidance of big time jumps (alt-tab, window drag, etc)
         frameDt = std::min(frameDt, 0.25f);
+
         _accumulator += frameDt;
 
         while (_accumulator >= fixed)
@@ -47,7 +51,6 @@ void Application::Run()
 
         Update(frameDt);
 
-        //Scene Manager Update
         Render();
     }
 }
@@ -55,7 +58,9 @@ void Application::Run()
 void Application::Render()
 {
     _window.clear(sf::Color::Black);
-    //Scene Manager Render
+
+    _sceneManager.Render(_context);
+
     _window.display();
 }
 
@@ -63,14 +68,16 @@ void Application::HandleEvents()
 {
     while (const std::optional event = _window.pollEvent())
     {
-        //SceneManager Handle Events
+        _sceneManager.HandleEvent(_context, *event);
     }
 }
 
 void Application::FixedUpdate(float dt)
 {
+    _sceneManager.FixedUpdate(_context, dt);
 }
 
 void Application::Update(float dt)
 {
+    _sceneManager.Update(_context, dt);
 }
