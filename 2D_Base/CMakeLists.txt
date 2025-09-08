@@ -17,5 +17,8 @@ add_executable(2D_Base main.cpp
         engine/core/EngineContext.h
         engine/scene/Scene.h
         engine/scene/SceneManager.cpp
-        engine/scene/SceneManager.h)
+        engine/scene/SceneManager.h
+        engine/core/Time.cpp
+        engine/core/Time.h
+)
 target_link_libraries(2D_Base sfml-graphics)

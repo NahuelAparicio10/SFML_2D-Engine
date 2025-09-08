@@ -45,7 +45,7 @@ void SceneManager::ProcessPending(EngineContext& ctx)
             break;
 
             default:
-                // Error - No transitiontype
+                // Error - No transition type
             break;
         }
     }
