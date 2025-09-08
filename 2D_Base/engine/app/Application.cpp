@@ -14,20 +14,26 @@ Application::Application(const AppConfig & config) : _config(config)
         contextSetting);
 
     _window.setVerticalSyncEnabled(_config.vsync);
-    if (!_config.vsync && _config.fpsCap > 0) {
+
+    if (!_config.vsync && _config.fpsCap > 0)
+    {
         _window.setFramerateLimit(_config.fpsCap);
     }
 
     _context.window = &_window;
     _context.sceneManager = &_sceneManager;
     _context.windowSize = _window.getSize();
+    _context.time = &_time;
+
+    // Sets the fixed step from app configuration
+    _time.SetFixedStep(config.fixedStep > 0.f ? config.fixedStep : (1.f/60.f));
 }
 
 Application::~Application() = default;
 
 void Application::Run()
 {
-    const float fixed = _config.fixedStep > 0.f ? _config.fixedStep : 1.f/60.f;
+    //const float fixed = _config.fixedStep > 0.f ? _config.fixedStep : 1.f/60.f;
 
     while (_window.isOpen())
     {
@@ -36,20 +42,20 @@ void Application::Run()
         // Applies requested transitions between scenes
         _sceneManager.ProcessPending(_context);
 
-        float frameDt = _clock.restart().asSeconds();
+        //Advances frame time
+        float rawDt = _clock.restart().asSeconds();
+        _time.Tick(rawDt);
 
-        // Avoidance of big time jumps (alt-tab, window drag, etc)
-        frameDt = std::min(frameDt, 0.25f);
+        // Avoidance of big time jumps (alt-tab, window drag, etc.)
+        //frameDt = std::min(frameDt, 0.25f);
 
-        _accumulator += frameDt;
 
-        while (_accumulator >= fixed)
+        while (_time.StepFixed())
         {
-            FixedUpdate(fixed);
-            _accumulator -= fixed;
+            FixedUpdate(_time.GetFixedStep());
         }
 
-        Update(frameDt);
+        Update(_time.GetFrameDt());
 
         Render();
     }
@@ -66,7 +72,7 @@ void Application::Render()
 
 void Application::HandleEvents()
 {
-    while (const std::optional event = _window.pollEvent())
+    while (auto event = _window.pollEvent())
     {
         _sceneManager.HandleEvent(_context, *event);
     }

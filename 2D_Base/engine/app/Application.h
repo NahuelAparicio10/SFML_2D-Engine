@@ -3,6 +3,7 @@
 #include "../core/EngineContext.h"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "../scene/SceneManager.h"
+#include "../core/Time.h"
 
 class Application
 {
@@ -23,7 +24,7 @@ private:
     sf::RenderWindow _window;
     EngineContext _context;
     SceneManager _sceneManager;
+    Time _time;
     sf::Clock _clock;
-    float _accumulator = 0.f;
 };
 
