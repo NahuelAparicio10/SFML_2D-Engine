@@ -1,49 +1,29 @@
 ﻿#include "Input.h"
+
 void Input::BeginFrame()
 {
-
+    _keyboardState.BeginFrame();
+    _mouseState.BeginFrame();
+    _textInput.BeginFrame();
 }
 
 void Input::Consume(const sf::Event& e)
 {
+    _keyboardState.Consume(e);
+    _mouseState.Consume(e);
+    _textInput.Consume(e);
 }
 
 void Input::EndFrame()
 {
+    _keyboardState.EndFrame();
+    _mouseState.EndFrame();
+    _textInput.EndFrame();
 }
 
-bool Input::GetKey(sf::Keyboard::Key k) const
-{
-}
+const KeyboardState& Input::GetKeyboard() const { return _keyboardState; }
 
-bool Input::GetKeyDown(sf::Keyboard::Key k) const
-{
-}
+const MouseState& Input::GetMouse() const { return _mouseState; }
 
-bool Input::GetKeyUp(sf::Keyboard::Key k) const
-{
-}
+const TextInput& Input::GetTextInput() const { return _textInput; }
 
-bool Input::GetMouseButton(sf::Mouse::Button b) const
-{
-}
-
-bool Input::GetMouseButtonDown(sf::Mouse::Button b) const
-{
-}
-
-bool Input::GetMouseButtonUp(sf::Mouse::Button b) const
-{
-}
-
-void Input::ClearAll()
-{
-}
-
-sf::Vector2i Input::GetMousePosition() const { return _mousePosition; }
-
-sf::Vector2i Input::GetMouseDelta() const { return _mouseDelta; }
-
-float Input::GetWheelDelta() const { return _wheelDelta; }
-
-const std::u32string& Input::GetTextEntered() const { return _textEntered; }
