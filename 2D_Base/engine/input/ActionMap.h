@@ -1,0 +1,7 @@
+﻿
+
+class ActionMap
+{
+    public:
+    bind();
+};
