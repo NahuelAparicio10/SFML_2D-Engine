@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <SFML/Window/Keyboard.hpp>
 #include <unordered_map>
-#include "../../game/input/InputEnums.h"
+#include "InputEnums.h"
 #include "SFML/Window/Mouse.hpp"
 
 

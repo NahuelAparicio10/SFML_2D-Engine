@@ -4,14 +4,16 @@ void KeyboardState::BeginFrame() {}
 
 void KeyboardState::Consume(const sf::Event& ev)
 {
+    using KeyboardScancode = sf::Keyboard::Scancode;
+
     if (auto key = ev.getIf<sf::Event::KeyPressed>())
     {
-        if (key->scancode != sf::Keyboard::Scancode::Unknown)
+        if (key->scancode != KeyboardScancode::Unknown)
             _now.set(static_cast<size_t>(key->scancode), true);
     }
     else if (auto key = ev.getIf<sf::Event::KeyReleased>())
     {
-        if (key->scancode != sf::Keyboard::Scancode::Unknown)
+        if (key->scancode != KeyboardScancode::Unknown)
             _now.set(static_cast<size_t>(key->scancode), false);
     }
     else if (ev.is<sf::Event::FocusLost>())

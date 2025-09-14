@@ -31,6 +31,6 @@ add_executable(2D_Base main.cpp
         engine/input/TextInput.cpp
         engine/input/TextInput.h
         engine/input/TextInput.cpp
-        engine/input/Bindings.h
+        game/input/Bindings.h
 )
 target_link_libraries(2D_Base sfml-graphics)
