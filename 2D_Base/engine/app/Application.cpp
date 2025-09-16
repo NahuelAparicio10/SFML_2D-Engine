@@ -1,5 +1,4 @@
 ﻿#include "Application.h"
-
 #include "../input/Input.h"
 
 Application::Application(const AppConfig & config) : _config(config)

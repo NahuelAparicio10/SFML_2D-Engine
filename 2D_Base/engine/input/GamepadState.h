@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <bitset>
 #include "SFML/Window/Event.hpp"
+#include <array>
 
 class GamepadState
 {

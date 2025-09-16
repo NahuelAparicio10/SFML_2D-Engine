@@ -1,5 +1,4 @@
 ﻿#include "GamepadState.h"
-
 #include <algorithm>
 
 void GamepadState::BeginFrame()
