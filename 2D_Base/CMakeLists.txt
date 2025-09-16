@@ -20,5 +20,19 @@ add_executable(2D_Base main.cpp
         engine/scene/SceneManager.h
         engine/core/Time.cpp
         engine/core/Time.h
+        engine/input/Input.cpp
+        engine/input/Input.h
+        game/input/InputEnums.h
+        engine/input/KeyboardState.cpp
+        engine/input/KeyboardState.h
+        engine/input/MouseState.cpp
+        engine/input/MouseState.h
+        engine/input/ActionMap.h
+        engine/input/TextInput.cpp
+        engine/input/TextInput.h
+        engine/input/TextInput.cpp
+        game/input/Bindings.h
+        engine/input/GamepadState.cpp
+        engine/input/GamepadState.h
 )
 target_link_libraries(2D_Base sfml-graphics)

@@ -4,6 +4,7 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "../scene/SceneManager.h"
 #include "../core/Time.h"
+#include "../input/Input.h"
 
 class Application
 {
@@ -16,7 +17,7 @@ public:
 private:
     void HandleEvents();
     void Render();
-    void FixedUpdate(float dt);
+    void FixedUpdate(double dt);
     void Update(float dt);
 
 private:
@@ -25,6 +26,7 @@ private:
     EngineContext _context;
     SceneManager _sceneManager;
     Time _time;
+    Input _input;
     sf::Clock _clock;
 };
 

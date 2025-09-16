@@ -3,8 +3,8 @@
 #include <vector>
 #include <cstdint>
 #include <SFML/Window/Event.hpp>
+#include "Scene.h"
 
-class Scene;
 struct EngineContext;
 
 class SceneManager
@@ -22,7 +22,7 @@ public:
 
     // Loop
     void HandleEvent(EngineContext& ctx, const sf::Event& ev);
-    void FixedUpdate(EngineContext& ctx, float dt);
+    void FixedUpdate(EngineContext& ctx, double dt);
     void Update(EngineContext& ctx, float dt);
     void Render(EngineContext& ctx);
 

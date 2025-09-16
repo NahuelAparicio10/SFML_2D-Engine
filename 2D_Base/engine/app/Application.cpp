@@ -1,5 +1,5 @@
 ﻿#include "Application.h"
-#include <algorithm>
+#include "../input/Input.h"
 
 Application::Application(const AppConfig & config) : _config(config)
 {
@@ -24,6 +24,7 @@ Application::Application(const AppConfig & config) : _config(config)
     _context.sceneManager = &_sceneManager;
     _context.windowSize = _window.getSize();
     _context.time = &_time;
+    _context.input = &_input;
 
     // Sets the fixed step from app configuration
     _time.SetFixedStep(config.fixedStep > 0.f ? config.fixedStep : (1.f/60.f));
@@ -37,6 +38,8 @@ void Application::Run()
 
     while (_window.isOpen())
     {
+        _input.BeginFrame();
+
         HandleEvents();
 
         // Applies requested transitions between scenes
@@ -58,6 +61,9 @@ void Application::Run()
         Update(_time.GetFrameDt());
 
         Render();
+
+        _input.EndFrame();
+
     }
 }
 
@@ -74,11 +80,23 @@ void Application::HandleEvents()
 {
     while (auto event = _window.pollEvent())
     {
+        if (event->is<sf::Event::Closed>())
+        {
+            _window.close();
+            continue;
+        }
+        if (const auto* r = event->getIf<sf::Event::Resized>())
+        {
+            _context.windowSize = r->size;
+        }
+
+        _input.Consume(*event);
+
         _sceneManager.HandleEvent(_context, *event);
     }
 }
 
-void Application::FixedUpdate(float dt)
+void Application::FixedUpdate(double dt)
 {
     _sceneManager.FixedUpdate(_context, dt);
 }
