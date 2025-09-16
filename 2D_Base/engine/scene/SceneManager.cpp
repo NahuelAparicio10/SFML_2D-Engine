@@ -60,7 +60,7 @@ void SceneManager::HandleEvent(EngineContext& ctx, const sf::Event& ev)
     _currentScene->HandleEvent(ctx, ev);
 }
 
-void SceneManager::FixedUpdate(EngineContext& ctx, float dt)
+void SceneManager::FixedUpdate(EngineContext& ctx, double dt)
 {
     if (IsEmpty()) return;
     _currentScene->FixedUpdate(ctx, dt);

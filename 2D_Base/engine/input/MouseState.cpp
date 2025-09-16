@@ -59,4 +59,4 @@ sf::Vector2i MouseState::GetMousePosition() const { return _position; }
 
 sf::Vector2i MouseState::GetDeltaMousePosition() const { return _delta; }
 
-float MouseState::GetWheelPosition() const { return _wheel; }
+float MouseState::GetWheelDelta() const { return _wheel; }

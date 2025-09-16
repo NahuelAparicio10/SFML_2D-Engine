@@ -16,7 +16,7 @@ public:
 
     sf::Vector2i GetMousePosition() const;
     sf::Vector2i GetDeltaMousePosition() const;
-    float GetWheelPosition() const;
+    float GetWheelDelta() const;
 
 private:
     static constexpr size_t _btnCount = (size_t)sf::Mouse::ButtonCount;
