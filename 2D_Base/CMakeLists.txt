@@ -34,5 +34,11 @@ add_executable(2D_Base main.cpp
         game/input/Bindings.h
         engine/input/GamepadState.cpp
         engine/input/GamepadState.h
+        engine/scene/GameObject.cpp
+        engine/scene/GameObject.h
+        engine/components/Component.h
+        engine/components/Transform.cpp
+        engine/components/Transform.h
+        engine/components/Component.cpp
 )
 target_link_libraries(2D_Base sfml-graphics)
