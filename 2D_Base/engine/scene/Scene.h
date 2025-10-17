@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "SFML/Window/Event.hpp"
+#include "GameObject.h"
 
 struct EngineContext;
 
@@ -14,6 +14,8 @@ public:
     virtual void FixedUpdate(EngineContext&, double) = 0;
     virtual void Update(EngineContext&, float) = 0;
     virtual void Render(EngineContext&) {}
+
+    std::vector<std::unique_ptr<GameObject>> gameobjects;
 };
 
 
