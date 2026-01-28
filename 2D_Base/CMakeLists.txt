@@ -40,5 +40,6 @@ add_executable(2D_Base main.cpp
         engine/components/Transform.cpp
         engine/components/Transform.h
         engine/components/Component.cpp
+        engine/scene/Scene.cpp
 )
 target_link_libraries(2D_Base sfml-graphics)

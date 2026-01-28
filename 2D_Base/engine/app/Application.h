@@ -18,6 +18,7 @@ private:
     void HandleEvents();
     void Render();
     void FixedUpdate(double dt);
+    void LateUpdate(float dt);
     void Update(float dt);
 
 private:

@@ -10,7 +10,7 @@ struct EngineContext;
 class SceneManager
 {
 public:
-    enum class TransitionType : std::uint8_t { Replace, Clear };
+
     using ScenePtr = std::unique_ptr<Scene>;
 
     // Petitions (applied in processPending)
@@ -24,12 +24,20 @@ public:
     void HandleEvent(EngineContext& ctx, const sf::Event& ev);
     void FixedUpdate(EngineContext& ctx, double dt);
     void Update(EngineContext& ctx, float dt);
+    void LateUpdate(EngineContext& ctx, float dt);
     void Render(EngineContext& ctx);
 
     // Status
     Scene* GetCurrent() const;
     bool IsEmpty() const;
+
 private:
+
+    enum class TransitionType : std::uint8_t
+    {
+        Replace,
+        Clear
+    };
 
     struct Transition
     {

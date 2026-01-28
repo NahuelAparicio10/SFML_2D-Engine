@@ -73,6 +73,13 @@ void SceneManager::Update(EngineContext& ctx, float dt)
     _currentScene->Update(ctx, dt);
 }
 
+void SceneManager::LateUpdate(EngineContext& ctx, float dt)
+{
+    if (IsEmpty()) return;
+    _currentScene->LateUpdate(ctx, dt);
+}
+
+
 void SceneManager::Render(EngineContext& ctx)
 {
     if (IsEmpty()) return;

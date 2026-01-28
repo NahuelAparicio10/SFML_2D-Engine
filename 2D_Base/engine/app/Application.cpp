@@ -52,14 +52,13 @@ void Application::Run()
         // Avoidance of big time jumps (alt-tab, window drag, etc.)
         //frameDt = std::min(frameDt, 0.25f);
 
-
         while (_time.StepFixed())
         {
             FixedUpdate(_time.GetFixedStep());
         }
 
         Update(_time.GetFrameDt());
-
+        LateUpdate(_time.GetFrameDt());
         Render();
 
         _input.EndFrame();
@@ -104,4 +103,9 @@ void Application::FixedUpdate(double dt)
 void Application::Update(float dt)
 {
     _sceneManager.Update(_context, dt);
+}
+
+void Application::LateUpdate(float dt)
+{
+    _sceneManager.LateUpdate(_context, dt);
 }
