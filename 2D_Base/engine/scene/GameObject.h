@@ -103,7 +103,7 @@ private:
     std::vector<GameObject*> _children;
 
     std::vector<Component*> _components;
-
+    bool _destroyInvoked = false;
 };
 
 

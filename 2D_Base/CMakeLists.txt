@@ -28,7 +28,6 @@ add_executable(2D_Base main.cpp
         engine/input/MouseState.cpp
         engine/input/MouseState.h
         engine/input/ActionMap.h
-        engine/input/TextInput.cpp
         engine/input/TextInput.h
         engine/input/TextInput.cpp
         game/input/Bindings.h

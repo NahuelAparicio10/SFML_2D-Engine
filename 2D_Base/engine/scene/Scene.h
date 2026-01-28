@@ -34,7 +34,10 @@ public:
         return go->AddComponent<TComponent>(std::forward<Args>(args)...);
     }
 
+    // Unity-like: destroying a GameObject destroys its whole hierarchy (children included).
     void Destroy(GameObject* go);
+    void DestroyHierarchy(GameObject* root);
+    void EnqueueDestroySingle(GameObject* go);
 
     // Read-only access for debugging/tools.
     const std::vector<std::unique_ptr<GameObject>>& GetGameObjects() const { return _gameObjects; }

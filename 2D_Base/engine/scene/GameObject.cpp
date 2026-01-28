@@ -9,14 +9,13 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
+    // Ensure deterministic destruction even if the owner didn't call InternalDestroy().
+    InternalDestroy();
+
     for (int i = static_cast<int>(_components.size()) - 1; i >= 0; --i)
     {
-        if (_components[i])
-        {
-            _components[i]->OnDestroy();
-            delete _components[i];
-            _components[i] = nullptr;
-        }
+        delete _components[i];
+        _components[i] = nullptr;
     }
 
     _components.clear();
@@ -25,7 +24,7 @@ GameObject::~GameObject()
     if (_parent)
     {
         auto& s = _parent->_children;
-        s.erase(std::remove(s.begin(), s.end(), this), s.end());
+        std::erase(s, this);
         _parent = nullptr;
     }
 }
@@ -66,12 +65,15 @@ void GameObject::InternalSetParent(GameObject* newParent)
     if (_parent)
     {
         auto& s = _parent->_children;
-        s.erase(std::remove(s.begin(), s.end(), this), s.end());
+        std::erase(s, this);
     }
 
     _parent = newParent;
 
-    _parent->_children.push_back(this);
+    if (_parent)
+    {
+        _parent->_children.push_back(this);
+    }
 
     bool desired = _parent ? (_parent->_activeInHierarchy && _activeSelf) : _activeSelf;
     InternalSetActiveInHierarchy(desired);
@@ -106,7 +108,7 @@ void GameObject::InvokeEnableDisableForAll(bool becomingActive)
         }
         else
         {
-            if (!component->enabledInvoked)
+            if (component->enabledInvoked)
             {
                 component->OnDisable();
                 component->enabledInvoked = false;
@@ -130,7 +132,6 @@ void GameObject::InternalCallStartIfNeeded()
 void GameObject::InternalFixedUpdate(double dt)
 {
     if (!_activeInHierarchy) return;
-
 
     for (auto* c : _components)
     {
@@ -165,7 +166,55 @@ void GameObject::InternalLateUpdate(float dt)
 
 void GameObject::InternalDestroy()
 {
+    if (_destroyInvoked) return;
 
+    _destroyInvoked = true;
+
+    // Detach children to avoid leaving them with a dangling parent pointer.
+    // ! Warning ! this does NOT destroy children; it only prevents invalid hierarchy references.
+    if (!_children.empty())
+    {
+        auto childrenCopy = _children;
+        _children.clear();
+        for (auto* child : childrenCopy)
+        {
+            if (!child) continue;
+            child->_parent = nullptr;
+            bool desired = child->_activeSelf;
+            child->InternalSetActiveInHierarchy(desired);
+        }
+    }
+
+    // Detach from parent immediately so the hierarchy stays consistent within the frame.
+    if (_parent)
+    {
+        auto& s = _parent->_children;
+        std::erase(s, this);
+        _parent = nullptr;
+    }
+
+    // If we were active in hierarchy, disable enabled components first.
+    if (_activeInHierarchy)
+    {
+        for (auto* c : _components)
+        {
+            if (!c || !c->enabled) continue;
+            if (c->enabledInvoked)
+            {
+                c->OnDisable();
+                c->enabledInvoked = false;
+            }
+        }
+    }
+
+    // OnDestroy must be invoked once, before memory is released.
+    for (auto* c : _components)
+    {
+        if (!c) continue;
+        c->OnDestroy();
+    }
+
+    _activeInHierarchy = false;
 }
 
 
